@@ -3,20 +3,20 @@ from typing import Optional
 from pygame import draw, transform, image
 from settings import BLACK
 
-# --- Картинки нот (лише існуючі) ---
+
 C_IMG = transform.scale(image.load('assets/images/notes/c.png'), (50, 50))
 D_IMG = transform.scale(image.load('assets/images/notes/d.png'), (50, 50))
 E_IMG = transform.scale(image.load('assets/images/notes/e.png'), (50, 50))
 
-# Для новых нот використовуємо існуючі картинки
-A_IMG = E_IMG  # використовуємо картинку E
-F_IMG = C_IMG  # використовуємо картинку C
-G_IMG = D_IMG  # використовуємо картинку D
-B_IMG = E_IMG  # використовуємо картинку E
-H1_IMG = C_IMG  # використовуємо картинку C
-H2_IMG = D_IMG  # використовуємо картинку D
-H3_IMG = E_IMG  # використовуємо картинку E
-H4_IMG = C_IMG  # використовуємо картинку C
+
+A_IMG = E_IMG  
+F_IMG = C_IMG  
+G_IMG = D_IMG  
+B_IMG = E_IMG  
+H1_IMG = C_IMG  
+H2_IMG = D_IMG  
+H3_IMG = E_IMG  
+H4_IMG = C_IMG  
 
 NOTE_IMAGES = {
     'C': C_IMG,
@@ -43,11 +43,11 @@ def spawn_flying_note(rect, note_name: Optional[str]):
     if not img:
         return
     
-    # Додаємо випадковість до позиції та швидкості
+    
     x = rect.centerx - img.get_width() // 2 + random.randint(-10, 10)
     y = rect.y - img.get_height() - 10
-    vy = random.uniform(-2.5, -1.5)  # випадкова швидкість
-    rotation = random.uniform(-15, 15)  # невеликий поворот
+    vy = random.uniform(-2.5, -1.5)  
+    rotation = random.uniform(-15, 15)  
     
     _FLYING_NOTES.append({
         'img': img, 
@@ -63,36 +63,36 @@ def update_and_draw_flying_notes(screen):
     import random
     to_remove = []
     for n in _FLYING_NOTES:
-        # Оновлюємо позицію
-        n['y'] += n['vy']
-        n['x'] += random.uniform(-0.5, 0.5)  # невелике хитання вбік
         
-        # Ефект згасання при підйомі
+        n['y'] += n['vy']
+        n['x'] += random.uniform(-0.5, 0.5)  
+        
+        
         if n['y'] < 200:
             n['alpha'] = max(0, n['alpha'] - 3)
             n['scale'] = max(0.7, n['scale'] - 0.005)
         
-        # Малювання з ефектами
+        
         if n['alpha'] > 0:
-            # Створюємо копію картинки для маніпуляцій
+            
             img = n['img'].copy()
             
-            # Застосовуємо масштабування
+            
             if n['scale'] != 1.0:
                 new_size = (int(img.get_width() * n['scale']), 
                            int(img.get_height() * n['scale']))
                 img = transform.scale(img, new_size)
             
-            # Застосовуємо прозорість
+            
             img.set_alpha(n['alpha'])
             
-            # Малюємо з поворотом
+            
             if n['rotation'] != 0:
                 img = transform.rotate(img, n['rotation'])
             
             screen.blit(img, (n['x'], n['y']))
         
-        # Видаляємо ноти що вилетіли за екран
+        
         if n['y'] + n['img'].get_height() < 0 or n['alpha'] <= 0:
             to_remove.append(n)
     
@@ -107,3 +107,4 @@ def draw_key_effect(screen, rect, is_pressed=False, note=None):
 
     draw.rect(screen, base_color, rect, border_radius=8)
     draw.rect(screen, BLACK, rect, 2, border_radius=8)
+
