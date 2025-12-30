@@ -51,7 +51,7 @@ class SettingsMenu:
         )
         self.keys_slider.set_on_change(self._on_keys)
 
-        # Кнопка открытия папки со звуками (в самом низу)
+        
         self.sounds_btn = Button(
             cx - 100, 550, 200, 40,
             "Завантажити звуки",
@@ -74,13 +74,13 @@ class SettingsMenu:
         """Открывает папку со звуками"""
         sounds_path = os.path.abspath("assets/sounds")
         try:
-            # Для Windows
+            
             if os.name == 'nt':
                 os.startfile(sounds_path)
-            # Для macOS
+            
             elif os.name == 'posix':
                 subprocess.run(['open', sounds_path])
-            # Для Linux
+            
             else:
                 subprocess.run(['xdg-open', sounds_path])
         except Exception as e:
@@ -95,7 +95,7 @@ class SettingsMenu:
         self.keys_slider.draw(screen, font)
         self.sounds_btn.draw(screen, font)
         
-        # Инструкция для добавления звуков
+        
         instruction_lines = [
             "ВАЖНО!!!!!!!!!!!",
             "КАК ДОБАВИТЬ НОВЫЕ ЗВУКИ:",
@@ -113,16 +113,16 @@ class SettingsMenu:
         
         for line in instruction_lines:
             if "ВАЖНО" in line:
-                text_color = (255, 0, 0)  # Красный для важного
+                text_color = (255, 0, 0)  
                 font_size = 23
             elif "КАК ДОБАВИТЬ" in line:
-                text_color = (0, 0, 139)  # Синий для заголовка
+                text_color = (0, 0, 139)  
                 font_size = 15
             elif line.startswith(("1.", "2.", "3.", "4.", "5.", "6.", "7.")):
-                text_color = (0, 100, 0)  # Темно-зеленый для пунктов
+                text_color = (0, 100, 0)  
                 font_size = 13
             else:
-                text_color = (0, 0, 0)  # Черный для остального
+                text_color = (0, 0, 0)  
                 font_size = 19
                 
             current_font = pygame.font.SysFont("Arial", font_size)
@@ -136,3 +136,4 @@ class SettingsMenu:
         self.volume_slider.handle_event(event)
         self.keys_slider.handle_event(event)
         self.sounds_btn.handle_event(event)
+
